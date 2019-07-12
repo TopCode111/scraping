@@ -7,3 +7,9 @@ print(result.headers)
 src = result.text
 print(src.title())
 
+workbook = xls.Workbook('demo.xlsx')
+worksheet = workbook.add_worksheet()
+worksheet.set_column('A:A',20)
+worksheet.write('A1','python1')
+worksheet.write('A2','python2')
+workbook.close()
