@@ -225,4 +225,35 @@ def scrapper(url):
             final_score = final_score + result['marks']
             result_dict['meta_keywords'] = result
             print('except worked')
+            # This is for row 4 (meta @robots)
+        name = 'meta_robots'
+        length_var_name = 'meta_robots_len'
+        try:
+            meta_tag = soup.find("meta", {"name": "robots"})
+            meta_robots_content = len(meta_tag['content'])
+            # title_ln = int(desc_text_ln)
 
+            if meta_robots_content:
+                result = {
+                    'name': name,
+                    'message': "Votre site dispose d'un fichier robots.txt",
+                    length_var_name: meta_robots_content,
+                    'marks': 4
+                }
+                final_score = final_score + result['marks']
+                result_dict['meta_robots'] = result
+                print('try worked1')
+        except:
+            result1 = {
+                'name': name,
+                'message': '''
+                               Votre site n’a pas de robot.txt
+                               Le robots.txt est un fichier texte utilisant un format précis qui permet à un Webmaster de contrôler quelles zones de son site un robot d'indexation est autorisé à analyser. Ce fichier texte sera disponible à une URL bien précise pour un site donné, par exemple http://www.monsite.com/robots.txt
+                               Pour bien comprendre à quoi sert un robots.txt, il faut comprendre la manière dont fonctionnent les robots d'indexation des moteurs de recherche (appelés aussi Web spiders, Web crawlers ou Bots) tels que Google, Yahoo ou Bing. Voici leurs actions lorsqu'ils analysent un site tel que www.monsite.com : ils commencent par télécharger et analyser le fichier http://www.monsite.com/robots.txt.
+                   ''',
+                length_var_name: 0,
+                'marks': 0
+            }
+            final_score = final_score + result1['marks']
+            result_dict['meta_robots'] = result1
+            print('except worked')
