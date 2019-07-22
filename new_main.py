@@ -257,3 +257,67 @@ def scrapper(url):
             final_score = final_score + result1['marks']
             result_dict['meta_robots'] = result1
             print('except worked')
+            # This is for row 5 (html lang)
+        name = 'html_lang'
+        length_var_name = 'html_lang'
+        try:
+            meta_tag = soup.find("html", {"lang": True})
+            lang_text = meta_tag['lang']
+
+            result = {
+                'name': name,
+                'message': "Félicitations. Vous avez spécifié une langue à votre page.",
+                length_var_name: lang_text,
+                'marks': 3
+            }
+            final_score = final_score + result['marks']
+            result_dict['html_lang'] = result
+            print('try worked1')
+        except:
+            result1 = {
+                'name': name,
+                'message': '''
+                   Vous devriez spécifier une langue pour votre site, les moteurs de recherches ne comprennent pas quand un site dispose de plusieurs langues par exemple ayant des mots techniques en anglais et un contenu texte en français. Il faut donc bien spécifier la langue.
+                   ''',
+                length_var_name: 0,
+                'marks': 0
+            }
+            final_score = final_score + result1['marks']
+            result_dict['html_lang'] = result1
+            print('except worked')
+
+        # This is for row 6 (sitemap)
+        url = url.strip()
+        sitemap_url = url + '/sitemap.xml'
+        print("Sitemap url ", sitemap_url)
+        try:
+
+            code = requests.get(sitemap_url, headers=headers).status_code
+
+            name = 'sitemap'
+
+            if code == 200:
+                result = {
+                    'name': name,
+                    'message': "Félicitations, votre site dispose d’un fichier sitemap",
+                    'marks': 2
+                }
+                final_score = final_score + result['marks']
+                result_dict['sitemap'] = result
+
+            else:
+                result = {
+                    'name': name,
+                    'message': "Votre site Web ne dispose pas d'un fichier sitemap. Les sitemaps peuvent aider les robots à indexer votre contenu de manière plus complète et plus rapide. ",
+                    'marks': 0
+                }
+                final_score = final_score + result['marks']
+                result_dict['sitemap'] = result
+        except:
+            result = {
+                'name': name,
+                'message': "Votre site Web ne dispose pas d'un fichier sitemap. Les sitemaps peuvent aider les robots à indexer votre contenu de manière plus complète et plus rapide. ",
+                'marks': 0
+            }
+            final_score = final_score + result['marks']
+            result_dict['sitemap'] = result
