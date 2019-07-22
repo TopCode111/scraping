@@ -142,3 +142,58 @@ def scrapper(url):
         }
         final_score = final_score + 0
         result_dict['title'] = result
+
+        # This is for row 2 (meta @description)
+        name = 'meta_description'
+        length_var_name = 'meta_desc_len'
+        try:
+            meta_tag = soup.find("meta", {"name": "description"})
+            desc_content = meta_tag['content']
+            desc_text_ln = len(desc_content)
+            # desc_text_ln = int(desc_text_ln)
+
+            if desc_text_ln < 150:
+                result = {
+                    'name': name,
+                    'message': 'Votre méta-description est trop courte, le nombre de caractère optimale doit être entre 150 et 250 caractères.',
+                    length_var_name: desc_text_ln,
+                    'desc_content': desc_content,
+                    'marks': 1
+                }
+                final_score = final_score + result['marks']
+                result_dict['meta_description'] = result
+                print('try worked1')
+
+            elif desc_text_ln > 150 and desc_text_ln < 250:
+                result = {
+                    'name': name,
+                    'message': 'Félicitations votre site dispose d’une méta-description avec un nombre de caractère optimal entre 150 et 250 caractères',
+                    length_var_name: desc_text_ln,
+                    'desc_content': desc_content,
+                    'marks': 5
+                }
+                final_score = final_score + result['marks']
+                result_dict['meta_description'] = result
+                print('try worked2')
+
+            elif desc_text_ln > 250:
+                result = {
+                    'name': name,
+                    'message': ' Votre méta-description est trop longue, essayez de la raccourcir, le nombre optimal est entre 150 et 250 caractères, le reste risque d’être tronqué sur l’affichage du résultat sur les moteurs de recherche.',
+                    length_var_name: desc_text_ln,
+                    'desc_content': desc_content,
+                    'marks': 2
+                }
+                final_score = final_score + result['marks']
+                result_dict['meta_description'] = result
+                print('try worked3')
+        except:
+            result1 = {
+                'name': name,
+                'message': 'Votre site ne dispose pas de méta-description, La balise meta description manque sur votre page. Vous devez inclure cette balise afin de fournir une brève description de votre page pouvant être utilisée par les moteurs de recherche. Des méta-descriptions bien écrites et attrayantes peuvent également aider les taux de clics sur votre site dans les résultats de moteur de recherche.',
+                length_var_name: 0,
+                'marks': 0
+            }
+            final_score = final_score + result1['marks']
+            result_dict['meta_description'] = result1
+            print('except worked')
