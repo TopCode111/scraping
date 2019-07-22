@@ -370,3 +370,60 @@ def scrapper(url):
                 final_score = final_score + result1['marks']
                 result_dict['page_cache'] = result1
                 print('except worked')
+                # API_KEY = AIzaSyD_RLUOcTN1JAq8PL8zJ79X6-kmHIDy_uM
+                # This is for row 9 (Google safe browsing api)
+
+            api_key = 'AIzaSyCVylpWnsOwzUoeTGg7akZRod-4YbhXoPU'
+            sbl = SafeBrowsingList(api_key)
+            bl = sbl.lookup_url(url)
+
+            name = 'google_safe_browsing'
+            print("google_safe_browsing ", url)
+            if bl is None:
+                print("Website is safe")
+                result = {
+                    'name': name,
+                    'message': "Votre site est considéré comme sécurisé.",
+                    'marks': 2
+                }
+                final_score = final_score + result['marks']
+                result_dict['google_safe_browsing'] = result
+
+            else:
+                result = {
+                    'name': name,
+                    'message': "Votre site n'est pas considéré comme sécurisé. Google et les autres moteurs de recherche prennent en compte le niveau de sécurité de votre site pour garantir la sécurité des visiteurs.",
+                    'marks': 0,
+                    'threats': bl
+                }
+                final_score = final_score + result['marks']
+                result_dict['google_safe_browsing'] = result
+
+            # This is for row 10 (responsive website test)
+            name = 'responsive_test'
+            length_var_name = 'responsive_test_desc'
+            try:
+                meta_tag = soup.find("meta", {"name": "viewport"})
+                lang_text = meta_tag['content']
+
+                result = {
+                    'name': name,
+                    'message': "Félicitations. Votre site est responsive.",
+                    length_var_name: lang_text,
+                    'marks': 4
+                }
+                final_score = final_score + result['marks']
+                result_dict['responsive_test'] = result
+                print('try worked1')
+            except:
+                result1 = {
+                    'name': name,
+                    'message': '''
+                       Nous n'avons pas détécté que votre site internet était responsive, soit adapté au mobile. Google prend énormément en compte ce critère pour un bon référencement.
+                       ''',
+                    length_var_name: 0,
+                    'marks': 0
+                }
+                final_score = final_score + result1['marks']
+                result_dict['responsive_test'] = result1
+                print('except worked')
