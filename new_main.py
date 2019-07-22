@@ -321,3 +321,52 @@ def scrapper(url):
             }
             final_score = final_score + result['marks']
             result_dict['sitemap'] = result
+            # This is for row 7 (google Analytics)
+            searched_word = 'google-analytics'
+
+            name = 'google_analytics'
+            if searched_word in str(soup):
+                print("Google analytics found")
+                result = {
+                    'name': name,
+                    'message': "Félicitations, votre site dispose de l'outil Google Analytics",
+                    'marks': 2
+                }
+                final_score = final_score + result['marks']
+                result_dict['google_analytics'] = result
+
+            else:
+                result = {
+                    'name': name,
+                    'message': "Votre site ne dispose pas de l'outil Google Analytics.",
+                    'marks': 0
+                }
+                final_score = final_score + result['marks']
+                result_dict['google_analytics'] = result
+
+            # This is for row 8 (page_cache)
+            name = 'page_cache'
+            length_var_name = 'page_cache_desc'
+            try:
+                meta_tag = soup.find("meta", {"http-equiv": "Cache-control"})
+                lang_text = meta_tag['content']
+
+                result = {
+                    'name': name,
+                    'message': "Vous avez activé le cache sur votre page, c'est très bien.",
+                    length_var_name: lang_text,
+                    'marks': 3
+                }
+                final_score = final_score + result['marks']
+                result_dict['page_cache'] = result
+                print('try worked1')
+            except:
+                result1 = {
+                    'name': name,
+                    'message': "Vous n'avez pas activé la mise en cache sur vos pages. La mise en cache permet un chargement plus rapide des pages.",
+                    length_var_name: 0,
+                    'marks': 0
+                }
+                final_score = final_score + result1['marks']
+                result_dict['page_cache'] = result1
+                print('except worked')
