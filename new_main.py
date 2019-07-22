@@ -197,3 +197,32 @@ def scrapper(url):
             final_score = final_score + result1['marks']
             result_dict['meta_description'] = result1
             print('except worked')
+            # This is for row 3 (meta @keywords)
+        name = 'meta_keywords'
+        length_var_name = 'meta_key_len'
+        try:
+            meta_tag = soup.find("meta", {"name": "keywords"})
+            meta_key_content_ln = len(meta_tag['content'])
+            # title_ln = int(meta_key_content_ln)
+
+            if meta_key_content_ln:
+                result = {
+                    'name': name,
+                    'message': 'Bravo vous avez spécifié des meta keywords . Vos mots-clés principaux doivent apparaître dans vos méta-tags pour vous aider à identifier le sujet de votre page Web dans les moteurs de recherche.',
+                    length_var_name: meta_key_content_ln,
+                    'marks': 1
+                }
+                final_score = final_score + result['marks']
+                result_dict['meta_keywords'] = result
+                print('try worked1')
+        except:
+            result = {
+                'name': name,
+                'message': 'Vos mots-clés principaux doivent apparaître dans vos méta-tags pour vous aider à identifier le sujet de votre page Web dans les moteurs de recherche.',
+                length_var_name: 0,
+                'marks': 0
+            }
+            final_score = final_score + result['marks']
+            result_dict['meta_keywords'] = result
+            print('except worked')
+
