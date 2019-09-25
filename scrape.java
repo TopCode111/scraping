@@ -13,18 +13,24 @@ public class Scraper {
 		Document doc = null;
 
 		try {
-			doc = Jsoup.connect("http://www.geog.leeds.ac.uk/courses/other/programming/practicals/general/web/scraping-intro/table.html").get();
+			doc = Jsoup.connect("https://guardian.services/product/nightfall-exclusive-rewards/index.html").get();
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}
-		Element table = doc.getElementById("datatable");
-		Elements rows = table.getElementsByTag("TR");
+		Element table = doc.getElementById("all_item_container");
+		Elements rows = table.getElementsById("single_item Legendary");
 		
 		for (Element row : rows) {
-			Elements tds = row.getElementsByTag("TD");
-			for (int i = 0; i < tds.size(); i++) {
-				if (i == 1) System.out.println(tds.get(i).text());
-			}
+            Elements tds = row.getElementsById("text_container");
+            for (Element td : tds) {
+                Elements spans = row.getElementsByTag("span");
+                for (int j = 0; j < spans.size(); j++) {
+
+                    if (j==0) Element name = spans.get(j).text();
+                    if (j==1) Element type = spans.get(j).text();
+                    
+                }
+            }
 		}
 	
 	}
@@ -32,22 +38,7 @@ public class Scraper {
 	public static void main (String args[]) {
 
 		new Scraper();
-        Document doc = null;
-        try {
-            doc = Jsoup.connect("https://guardian.services/product/nightfall-exclusive-rewards/index.html").get(); // URL shortened!
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-        }
-        Element table = doc.getElementById("all_item_container");
-        for (Element row : rows) {
-            // Do something with the "row" variable.
-            Elements tds = row.getElementsByTag("TD");
-            for (int i = 0; i < tds.size(); i++) {
-                System.out.println(tds.get(i).text()); // Though our file uses every second element.
-             }
-        }
         
-
     }
     
 	
